@@ -21,8 +21,13 @@ module Merchii
         def initialize(options = {})
           options = DEFAULT_OPTIONS.merge(options)
           key = options.delete(:key)
+
+          # REVIEW: Has issue with regions, get error message if it's not set - jaakko
+          # The unspecified location constraint is incompatible for the region specific endpoint this request was sent to.
           s3 = ::Fog::Storage::AWS.new(options)
-          @directory = s3.directories.create(:key => key)
+          s3.region = options[:region]
+
+          @directory = get_directory(s3, key)
         end
 
         def key?(key)
@@ -67,6 +72,27 @@ module Merchii
         end
 
         private
+
+          def get_directory(connection, name)
+            directory_exists?(connection, name) ? find_directory(connection, name) : create_directory(connection, name)
+          end
+
+          def directory_exists?(connection, name)
+            find_directory(connection, name).present?
+          end
+
+          def find_directory(connection, name)
+            list_directories(connection).select{ |_directory| _directory.key == name }.first
+          end
+
+          def list_directories(connection)
+            @_directory_list ||= connection.directories
+          end
+
+          def create_directory(connection, name)
+            @_directory_list = nil
+            connection.directories.create(:key => name, :public => false)
+          end
 
           def key_for(key)
             key.is_a?(String) ? key : serializer.dump(key)

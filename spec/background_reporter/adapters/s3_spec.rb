@@ -1,16 +1,43 @@
 require 'spec_helper'
 
 describe Merchii::BackgroundReporter::Adapters::S3 do
+  let(:aws_options){
+    {
+      :aws_access_key_id => ENV['AWS_ACCESS_KEY'] || 'mocked',
+      :aws_secret_access_key => ENV['AWS_ACCESS_SECRET'] || 'mocked',
+      :region => 'eu-west-1'
+    }
+  }
+
+  let(:adapter_options) {
+    aws_options.merge( {:key => 'test'} )
+  }
+
+  let(:s3) do
+    ::Fog::Storage::AWS.new(aws_options)
+  end
 
   before(:each) do
-    Fog.mock! unless ENV['AWS_ACCESS_KEY']
-
-    @store = Merchii::BackgroundReporter::Adapters::S3.new(
-        :aws_access_key_id => ENV['AWS_ACCESS_KEY'] || 'mocked',
-        :aws_secret_access_key => ENV['AWS_ACCESS_SECRET'] || 'mocked',
-        :key => 'test'
-      )
+    Fog.mock! # unless ENV['AWS_ACCESS_KEY']
+    @store = Merchii::BackgroundReporter::Adapters::S3.new(adapter_options)
     @store.clear
+  end
+
+  describe "directory" do
+    it "should create new directory if it doesn't exists" do
+      @store.send(:get_directory, s3, adapter_options[:key]).key.must_equal s3.directories.first.key
+    end
+
+    it "should return list of directories" do
+      @store.send(:list_directories, s3).map(&:key).must_equal s3.directories.map(&:key)
+    end
+
+    it "should create new directory" do
+      skip
+      # Review: Find correct way to create expect for s3 directories.create, current is failing - jaakko
+      ::Fog::Storage::AWS.any_instance.directories.expects(:create).with({:key => 'test', :public => false})
+      @store.send(:create_directory, s3, 'test')
+    end
   end
 
   types = {
