@@ -32,9 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'guard'
   s.add_development_dependency 'guard-bundler'
   s.add_development_dependency 'guard-minitest'
-  s.add_development_dependency 'pry'
-  s.add_development_dependency 'pry-doc'
-  s.add_development_dependency 'pry-git'
-  s.add_development_dependency 'ruby-prof'
   s.add_development_dependency 'awesome_print'
 end
