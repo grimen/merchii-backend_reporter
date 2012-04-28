@@ -8,4 +8,7 @@ require 'mocha'
 require 'ap'
 require 'pp'
 
+ENV['AWS_ACCESS_KEY'] ||= 'mocked'
+ENV['AWS_ACCESS_SECRET'] ||= 'mocked'
+
 require 'merchii/background_reporter'

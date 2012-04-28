@@ -22,7 +22,6 @@ module Merchii
           options = DEFAULT_OPTIONS.merge(options)
           key = options.delete(:key)
           s3 = ::Fog::Storage::AWS.new(options)
-
           @directory = s3.directories.create(:key => key)
         end
 
