@@ -1,0 +1,15 @@
+.DS_Store
+.bundle
+.rbx
+.*~
+Gemfile.lock
+pkg/*
+tmp/*
+*.gem
+*.rbc
+*~
+.rvmrc
+images
+uploads
+config
+public/uploads
