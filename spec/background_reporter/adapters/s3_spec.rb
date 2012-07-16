@@ -50,8 +50,8 @@ describe Merchii::BackgroundReporter::Adapters::S3 do
     end
 
     it "writes String values to keys that are #{type}s like a Hash" do
-      @store[key] = "value"
-      @store[key].must_equal "value"
+      @store[key] = {:foo => :bar}
+      @store[key].must_equal({"foo" => "bar"})
     end
 
     # it "guarantees that a different String value is retrieved from the #{type} key" do
@@ -76,13 +76,13 @@ describe Merchii::BackgroundReporter::Adapters::S3 do
     end
 
     it "returns true from key? if a #{type} key is available" do
-      @store[key] = "value"
+      @store[key] = {"foo" => "bar"}
       @store.key?(key).must_equal true
     end
 
     it "removes and returns an element with a #{type} key from the backing store via delete if it exists" do
-      @store[key] = "value"
-      @store.delete(key).must_equal "value"
+      @store[key] = {"foo" => "bar"}
+      @store.delete(key).must_equal({"foo" => "bar"})
       @store.key?(key).must_equal false
     end
 
@@ -91,8 +91,8 @@ describe Merchii::BackgroundReporter::Adapters::S3 do
     end
 
     it "removes all #{type} keys from the store with clear" do
-      @store[key] = "value"
-      @store[key2] = "value2"
+      @store[key] = {"foo" => "bar"}
+      @store[key2] = {"foo" => "bar2"}
       @store.clear
       @store.key?(key).wont_equal true
       @store.key?(key2).wont_equal true
@@ -107,20 +107,20 @@ describe Merchii::BackgroundReporter::Adapters::S3 do
     end
 
     it "does not run the block if the #{type} key is available" do
-      @store[key] = "value"
-      unaltered = "unaltered"
-      @store.fetch(key) { unaltered = "altered" }
-      unaltered.must_equal "unaltered"
+      @store[key] = {"foo" => "bar"}
+      unaltered = {"foo" => "unaltered"}
+      @store.fetch(key) { unaltered = {"foo" => "altered"} }
+      unaltered.must_equal({"foo" => "unaltered"})
     end
 
     it "fetches a #{type} key with a default value with fetch, if the key is available" do
-      @store[key] = "value2"
-      @store.fetch(key, "value").must_equal "value2"
+      @store[key] = {"foo" => "bar"}
+      @store.fetch(key, "value").must_equal({"foo" => "bar"})
     end
 
     it "stores #{key} values with #store" do
-      @store.store(key, "value")
-      @store[key].must_equal "value"
+      @store.store(key, {"foo" => "bar"})
+      @store[key].must_equal({"foo" => "bar"})
     end
   end
 

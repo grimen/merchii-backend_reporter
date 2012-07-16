@@ -1,5 +1,10 @@
 require 'fog'
 require 'multi_json'
+begin
+  require 'yajl'
+rescue LoadError
+  require 'json'
+end
 # require 'active_support/all'
 
 module Merchii
@@ -111,7 +116,11 @@ module Merchii
           end
 
           def serializer
-            ::MultiJson.use :yajl
+            if defined?(::Yajl)
+              ::MultiJson.use 'yajl'
+            else
+              ::MultiJson.use 'json_gem'
+            end
             MultiJson
           end
 

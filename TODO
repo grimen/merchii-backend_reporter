@@ -5,6 +5,8 @@
 
 - [FEATURE]: Strip all non-valid S3 keys, replace with say '-'. Example: /[\W]/
 
+- [FEATURE]: Async-call out of the box?
+
 - [REVIEW]: Fake S3
 
     * https://github.com/jubos/fake-s3

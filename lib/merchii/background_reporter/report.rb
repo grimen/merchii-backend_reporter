@@ -30,7 +30,7 @@ module Merchii
         return @reporter if args.blank?
 
         reporter = args.shift
-        reporter = reporter.to_sym if reporter.is_a?(String)
+        reporter = reporter.to_sym if reporter.is_a?(String) && reporter.present?
 
         raise ::Merchii::BackgroundReporter::Report::ArgumentError, "Expects String/Symbol/NilClass, got #{reporter.class.name}." unless [NilClass, String, Symbol].any? { |klass| reporter.is_a?(klass) }
         raise ::Merchii::BackgroundReporter::Report::ArgumentError, "Expects key to be non-blank: #{reporter.inspect}." if reporter.to_s.blank?

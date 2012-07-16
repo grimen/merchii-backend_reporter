@@ -18,61 +18,60 @@ describe Merchii::BackgroundReporter::Report do
     it { @report.must_respond_to :reporter }
 
     it "(): should give blank as reporter, and return it (@reporter)" do
-      skip
       @report.instance_variable_set(:@reporter, :mean_machine)
       reporter = @report.as
       reporter.must_equal :mean_machine
     end
 
     it "('a_string'): should give :a_string as reporter , and return self (<#Report>)" do
-      skip
+      skip # TODO
+
       reporter = @report.as('a_string')
       reporter.must_equal :a_string
     end
 
     it "(:a_symbol): should give :a_symbol as reporter , and return self (<#Report>)" do
-      skip
+      skip # TODO
+
       reporter = @report.as(:a_symbol)
       reporter.must_equal :a_symbol
     end
 
     it "(nil): should raise ArgumentError" do
-      skip
+      skip # TODO
+
       lambda {
         reporter = @report.as(nil)
       }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
     end
 
     it "(''): should raise ArgumentError" do
-      skip
       lambda {
         reporter = @report.as('')
       }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
     end
 
     it "(' '): should raise ArgumentError" do
-      skip
       lambda {
         reporter = @report.as(' ')
       }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
     end
 
-    it "(:''): should raise ArgumentError" do
-      skip
-      lambda {
-        reporter = @report.as(:'')
-      }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
-    end
+    # SKIP: jruby issue
+    # it "(:''): should raise ArgumentError" do
+    #   skip
+    #   lambda {
+    #     reporter = @report.as(:'')
+    #   }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
+    # end
 
     it "(:' '): should raise ArgumentError" do
-      skip
       lambda {
         reporter = @report.as(:' ')
       }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
     end
 
     it "(<neither of String/Symbol/Nilclass>): should raise ArgumentError" do
-      skip
       [Object.new].each do |object|
         lambda {
           reporter = @report.as(object)
@@ -86,28 +85,29 @@ describe Merchii::BackgroundReporter::Report do
 
     # REVIEW: Return "everything"?
     it "(): should raise ArgumentError" do
-      skip
+      skip # TODO
+
       lambda {
         data = @report.as(:mean_machine).get()
       }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
     end
 
     it "(nil): should raise ArgumentError" do
-      skip
+      skip # TODO
+
       lambda {
         data = @report.as(:mean_machine).get(nil)
       }.must_raise Merchii::BackgroundReporter::Report::ArgumentError
     end
 
     it "('key'): should return pushed data by the current reporter" do
-      skip
       @report.adapter[:mean_machine] = {:foo => :bar}
       data = @report.as(:mean_machine).get
       data.must_equal({'foo' => 'bar'})
     end
 
     it "(:key): should return pushed data by the current reporter" do
-      skip
+      skip # TODO
     end
   end
 

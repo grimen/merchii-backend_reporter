@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'fog'
   s.add_runtime_dependency 'multi_json'
-  s.add_runtime_dependency 'yajl-ruby'
+  s.add_runtime_dependency 'json'
   s.add_runtime_dependency 'activesupport'
   # s.add_runtime_dependency 'connection_pool'
 

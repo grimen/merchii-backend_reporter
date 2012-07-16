@@ -3,11 +3,10 @@ source 'https://rubygems.org'
 gemspec
 
 platform :ruby do
-  gem 'pry'
-  gem 'pry-doc'
-  gem 'pry-git'
+  gem 'yajl-ruby'
+end
 
-  group :development do
-    gem 'ruby-prof', :git => 'git://github.com/wycats/ruby-prof.git'
-  end
+platforms :jruby do
+  gem 'json-jruby'
+  gem 'jruby-openssl'
 end
